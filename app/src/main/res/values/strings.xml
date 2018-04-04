@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Awesome News</string>
+    <string name="updated_time">Updated: %s</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="search_news">Search News</string>
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="retrieve_data_error">Retrieve data error</string>
+    <string name="no_data">No data to retrieve</string>
+</resources>
