@@ -10,8 +10,9 @@ class NewsUrlProvider {
             "https://api.myjson.com/bins/riovv"
             )
     companion object {
+
         fun genNewsDetailUrl(uuid: String): String {
-            return "https://api.myjson.com/bins/1e60qj"
+            return "https://api.myjson.com/bins/kezmz" //return only one news with body
         }
 
         fun generateUrl(keywords: String, page: Int): String {
