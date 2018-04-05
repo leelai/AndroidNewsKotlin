@@ -24,10 +24,10 @@ data class Source(
 data class Article (
         var source: Source? = null,
         var author: String? = null,
-        var title: String? = null,
-        var description: String? = null,
-        var url: String? = null,
-        var urlToImage: String? = null,
+        var title: String = "",
+        var description: String = "",
+        var url: String = "",
+        var urlToImage: String = "",
         var publishedAt: Date? = null,
-        var body: String? = null
+        var body: String = ""
 )

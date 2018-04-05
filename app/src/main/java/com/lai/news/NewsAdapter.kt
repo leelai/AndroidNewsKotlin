@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.lai.news.data.Article
+import com.lai.news.data.News
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_view_item.view.*
 import java.text.SimpleDateFormat
@@ -16,11 +18,11 @@ import java.util.*
 class NewsAdapter: BaseAdapter, Filterable {
     var context: Context? = null
     var layoutInflater:LayoutInflater? = null
-    var originListNews = ArrayList<News>()
-    var filteredListNews = ArrayList<News>()
+    var originListNews = ArrayList<Article>()
+    var filteredListNews = ArrayList<Article>()
     var myInterface: MyInterface
 
-    constructor(myInterface: MyInterface, listNews: ArrayList<News>) : super() {
+    constructor(myInterface: MyInterface, listNews: ArrayList<Article>) : super() {
         this.myInterface = myInterface
         this.context = this.myInterface.getContext1()
         layoutInflater = LayoutInflater.from(context)
@@ -29,6 +31,7 @@ class NewsAdapter: BaseAdapter, Filterable {
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        println("get view: " + position.toString());
         val view : View?
         val vh: ViewHolder?
 
@@ -48,7 +51,7 @@ class NewsAdapter: BaseAdapter, Filterable {
         vh.title.text = news.title
         vh.description.text = news.description
 
-        Picasso.with(context).load(news.imageURL).placeholder(R.drawable.progress_animation).error(R.drawable.icon)
+        Picasso.with(context).load(news.urlToImage).placeholder(R.drawable.progress_animation).error(R.drawable.icon)
                 .into(vh.image)
         vh.detailIcon.setOnClickListener({
             myInterface.onClick(news)
@@ -99,11 +102,11 @@ class NewsAdapter: BaseAdapter, Filterable {
                     return filterResults
                 }
 
-                var newListNews = ArrayList<News>()
+                var newListNews = ArrayList<Article>()
 
                 val iterator = originListNews.iterator()
                 iterator.forEach {
-                    if (it.description.toLowerCase().contains(filterString)) {
+                    if (it.description!!.toLowerCase().contains(filterString)) {
                         newListNews.add(it)
                     }
                 }
@@ -114,7 +117,7 @@ class NewsAdapter: BaseAdapter, Filterable {
             }
 
             override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
-                filteredListNews = results!!.values as ArrayList<News>
+                filteredListNews = results!!.values as ArrayList<Article>
                 notifyDataSetChanged()
             }
         }

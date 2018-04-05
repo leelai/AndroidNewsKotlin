@@ -9,6 +9,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import com.github.kittinunf.fuel.Fuel
+import com.lai.news.data.Article
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.news_detail.view.*
@@ -16,14 +17,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class NewsDetailFactory {
-    fun getInstance(news: News): NewsDetailFragment {
+    fun getInstance(news: Article): NewsDetailFragment {
         var fragment = NewsDetailFragment().apply {
             id = "1234"
             title = news.title
-            imageUrl = when(news.imageURL == null) {
-                true -> ""
-                false -> news.imageURL
-            }
+            imageUrl = news.urlToImage
             publishedAt = news.publishedAt
         }
         return fragment
@@ -68,7 +66,7 @@ class NewsDetailFragment : Fragment() {
             println("totalResults:" + news.totalResults)
 
             //view!!.tvTitle.text = news!!.articles!![0].title
-            view!!.tvDescription.text = news!!.articles!![0].body
+            view!!.tvDescription.text = news.articles!![0].body
         }
     }
 
