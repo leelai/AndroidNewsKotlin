@@ -1,6 +1,7 @@
 package com.lai.news
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -20,6 +21,7 @@ class NewsFragment : Fragment(), MyInterface {
     var swipeRefreshLayout: SwipeRefreshLayout? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        println("news fragment: onCreateView")
         var view = inflater?.inflate(R.layout.fragment_news,
                 container, false)
         view!!.findViewById<EditTextWithClear>(R.id.etSearchKeywords).also {
@@ -65,9 +67,22 @@ class NewsFragment : Fragment(), MyInterface {
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-        println("onActivityCreated")
+        println("news fragment: onActivityCreated")
         super.onActivityCreated(savedInstanceState)
         getNews(1)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        println("news fragment: onConfigurationChanged")
+        // Checks the orientation of the screen
+//        adapter!!.notifyDataSetChanged()
+//        if (newConfig!!.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            println("news fragment: ORIENTATION_LANDSCAPE")
+//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+//            println("news fragment: ORIENTATION_PORTRAIT")
+//            adapter!!.notifyDataSetChanged()
+//        }
     }
 
     private fun getNews(page: Int, useClient: Boolean = false) {

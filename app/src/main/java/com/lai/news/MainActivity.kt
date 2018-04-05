@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         var newsFragment = NewsFragment()
@@ -24,13 +24,13 @@ class MainActivity : AppCompatActivity() {
 
     fun fragmentTrans(frag: Fragment){
         supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentHolder, frag)
+                .add(R.id.contentFrame, frag)
                 .commit()
     }
 
     fun addFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-                .add(R.id.fragmentHolder, fragment)
+                .add(R.id.contentFrame, fragment)
                 .addToBackStack("test")
                 .commit()
     }

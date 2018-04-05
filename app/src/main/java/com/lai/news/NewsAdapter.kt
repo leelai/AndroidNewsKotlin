@@ -33,17 +33,17 @@ class NewsAdapter: BaseAdapter, Filterable {
         val vh: ViewHolder?
 
         val news = filteredListNews[position]
-        val sdf = SimpleDateFormat("MMMM dd, HH:mm" , Locale.getDefault())
 
-        if (convertView == null) {
+//        if (convertView == null) {
             vh = ViewHolder(layoutInflater!!)
             vh.view.tag = vh
             view = vh.view
-        } else {
-            view = convertView
-            vh = convertView.tag as ViewHolder
-        }
+//        } else {
+//            view = convertView
+//            vh = convertView.tag as ViewHolder
+//        }
 
+        val sdf = SimpleDateFormat("MMMM dd, HH:mm" , Locale.getDefault())
         vh.updateTime.text = String.format(context!!.getString(R.string.updated_time), sdf.format(news.publishedAt))
         vh.title.text = news.title
         vh.description.text = news.description

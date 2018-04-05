@@ -1,24 +1,27 @@
 package com.lai.news
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.github.kittinunf.fuel.Fuel
-import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.core.FuelManager
-import com.github.kittinunf.fuel.core.ResponseDeserializable
-import com.github.kittinunf.fuel.httpGet
-import com.google.gson.Gson
-import kotlinx.android.synthetic.main.news_detail_content_scrolling.view.*
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.news_detail.view.*
+import java.text.SimpleDateFormat
 import java.util.*
 
 class NewsDetailFactory {
     fun getInstance(news: News): NewsDetailFragment {
         var fragment = NewsDetailFragment().apply {
+            id = "1234"
             title = news.title
-            description = news.description
+            imageUrl = when(news.imageURL == null) {
+                true -> ""
+                false -> news.imageURL
+            }
+            publishedAt = news.publishedAt
         }
         return fragment
     }
@@ -26,13 +29,24 @@ class NewsDetailFactory {
 
 class NewsDetailFragment : Fragment() {
 
+    val sdf = SimpleDateFormat("MMMM dd, HH:mm" , Locale.getDefault())
+    lateinit var id: String
     lateinit var title: String
-    lateinit var description: String
+    var publishedAt: Date? = null
+    var imageUrl: String? = null
+    lateinit var fragmentLayout: View
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater!!.inflate(R.layout.news_detail_scrolling, container, false)
+        println("NewsDetailFragment->onCreateView")
+        var view = inflater!!.inflate(R.layout.news_detail, container, false)
         view.tvTitle.text = title
-        view.tvDescription.text = description
+        view.tvDescription.text = getText(R.string.loading)
+        view.tvUpdatedTime.text = String.format(context!!.getString(R.string.updated_time), sdf.format(publishedAt))
+        Picasso.with(context).load(imageUrl)
+                .placeholder(R.drawable.progress_animation)
+                .error(R.drawable.icon)
+                .into(view!!.appCompatImageView)
+        fragmentLayout = view
         return view
     }
 
@@ -42,53 +56,18 @@ class NewsDetailFragment : Fragment() {
     }
 
     private fun getNewsDetail() {
-        var url = NewsUrlProvider.genNewsDetailUrl("1234")
-        Fuel.get(url).responseString { request, response, result ->
-            //do something with response
-            result.fold({ d ->
-                //do something with data
-                println("lai_test: d=" + d)
-            }, { err ->
-                //do something with error
-                println("lai_test: err=" + err)
-            })
-        }
-
-        Fuel.get(url).responseObject(News.Deserializer()) { req, res, result ->
-            //result is of type Result<User, Exception>
+        var url = NewsUrlProvider.genNewsDetailUrl(id)
+        Fuel.get(url).responseObject(com.lai.news.data.News.Deserializer()) { req, res, result ->
+            //result is of type Result<News, Exception>
             val (news, err) = result
 
             println("status:" + news!!.status)
             println("totalResults:" + news.totalResults)
 
+            //view!!.tvTitle.text = news!!.articles!![0].title
+            view!!.tvDescription.text = news!!.articles!![0].body
         }
     }
 
-    //News Model
-    data class News (
-            var status: String? = null,
-            var totalResults: Int? = null,
-            var articles:  List<Article>? = null ){
-        class Deserializer : ResponseDeserializable<News> {
-            override fun deserialize(content: String) = Gson().fromJson(content, News::class.java)
-        }
-    }
 
-    //Source Model
-    data class Source(
-        var id: String? = null,
-        var name: String? = null
-    )
-
-    //Article Model
-    data class Article (
-        var source: Source? = null,
-        var author: String? = null,
-        var title: String? = null,
-        var description: String? = null,
-        var url: String? = null,
-        var urlToImage: String? = null,
-        var publishedAt: Date? = null,
-        var body: String? = null
-    )
 }
