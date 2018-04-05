@@ -26,7 +26,7 @@
         android:layout_height="20dp"
         android:layout_margin="10dp"
         android:layout_marginEnd="@dimen/text_margin"
-        android:gravity="left"
+        android:gravity="left|right"
         android:maxLines="1"
         android:text="Title"
         android:textColor="#009688"

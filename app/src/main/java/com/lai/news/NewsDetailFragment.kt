@@ -55,6 +55,12 @@ class NewsDetailFragment : Fragment() {
         getNewsDetail()
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration?) {
+        super.onConfigurationChanged(newConfig)
+        println("news fragment: onConfigurationChanged")
+        // Checks the orientation of the screen
+    }
+
     private fun getNewsDetail() {
         var url = NewsUrlProvider.genNewsDetailUrl(id)
         Fuel.get(url).responseObject(com.lai.news.data.News.Deserializer()) { req, res, result ->
