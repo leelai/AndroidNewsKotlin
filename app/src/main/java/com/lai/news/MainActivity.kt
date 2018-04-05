@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 /**
  * Created by lailee on 04/03/2018.
@@ -15,7 +17,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
+
+        ivBack.setOnClickListener({ _ -> onBackPressed() })
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         var newsFragment = NewsFragment()

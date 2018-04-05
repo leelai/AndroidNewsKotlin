@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import com.github.kittinunf.fuel.Fuel
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.news_detail.view.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -55,12 +58,6 @@ class NewsDetailFragment : Fragment() {
         getNewsDetail()
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-        println("news fragment: onConfigurationChanged")
-        // Checks the orientation of the screen
-    }
-
     private fun getNewsDetail() {
         var url = NewsUrlProvider.genNewsDetailUrl(id)
         Fuel.get(url).responseObject(com.lai.news.data.News.Deserializer()) { req, res, result ->
@@ -75,5 +72,13 @@ class NewsDetailFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        activity.ivBack.visibility = VISIBLE
+    }
 
+    override fun onStop() {
+        super.onStop()
+        activity.ivBack.visibility = INVISIBLE
+    }
 }

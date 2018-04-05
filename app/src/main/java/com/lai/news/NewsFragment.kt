@@ -7,9 +7,12 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
 import android.view.ViewGroup
 import android.widget.ListView
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_news.view.*
 import java.util.ArrayList
 
 class NewsFragment : Fragment(), MyInterface {
@@ -24,7 +27,7 @@ class NewsFragment : Fragment(), MyInterface {
         println("news fragment: onCreateView")
         var view = inflater?.inflate(R.layout.fragment_news,
                 container, false)
-        view!!.findViewById<EditTextWithClear>(R.id.etSearchKeywords).also {
+        view!!.etSearchKeywords.also {
             it.afterTextChanged {
                 if (!it.isEmpty() && it != keywords) {
                     //originListNews.clear()
@@ -70,19 +73,6 @@ class NewsFragment : Fragment(), MyInterface {
         println("news fragment: onActivityCreated")
         super.onActivityCreated(savedInstanceState)
         getNews(1)
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration?) {
-        super.onConfigurationChanged(newConfig)
-        println("news fragment: onConfigurationChanged")
-        // Checks the orientation of the screen
-//        adapter!!.notifyDataSetChanged()
-//        if (newConfig!!.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            println("news fragment: ORIENTATION_LANDSCAPE")
-//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-//            println("news fragment: ORIENTATION_PORTRAIT")
-//            adapter!!.notifyDataSetChanged()
-//        }
     }
 
     private fun getNews(page: Int, useClient: Boolean = false) {
