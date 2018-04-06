@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 def newsapiPropertiesFile = rootProject.file("newsapi.properties")
 def newsapiProperties = new Properties()
@@ -8,7 +9,7 @@ newsapiProperties.load(new FileInputStream(newsapiPropertiesFile))
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.lai.news"
         minSdkVersion 17
@@ -29,6 +30,10 @@ android {
         it.buildConfigField 'String', 'NEWSAPI_BASE_URL', newsapiProperties['NewsapiBaseUrl']
         it.buildConfigField 'String', 'DEFAULT_KEYWORDS', newsapiProperties['DefaultKeywords']
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -46,6 +51,7 @@ dependencies {
     implementation 'com.android.support:support-v4:26.0.2'
     implementation 'com.github.kittinunf.fuel:fuel-android:1.12.1'
     implementation 'com.github.kittinunf.fuel:fuel-gson:1.12.1'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

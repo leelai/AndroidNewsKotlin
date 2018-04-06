@@ -4,8 +4,8 @@ import java.net.URLEncoder
 import java.util.*
 
 class NewsUrlProvider {
-    var urls = arrayOf("https://api.myjson.com/bins/155imz",
-            "https://api.myjson.com/bins/186ttn",
+    var urls = arrayOf("https://api.myjson.com/bins/van6b",
+            "https://api.myjson.com/bins/kkuab",
             "https://api.myjson.com/bins/12txdn",
             "https://api.myjson.com/bins/riovv"
             )

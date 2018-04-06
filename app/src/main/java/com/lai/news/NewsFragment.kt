@@ -11,6 +11,7 @@ import android.widget.ListView
 import android.widget.Toast
 import com.github.kittinunf.fuel.Fuel
 import com.lai.news.data.Article
+import com.lai.news.newsdetail.NewsDetailFactory
 import kotlinx.android.synthetic.main.fragment_news.*
 import kotlinx.android.synthetic.main.fragment_news.view.*
 import java.util.ArrayList
