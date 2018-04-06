@@ -1,5 +1,6 @@
 package com.lai.news.newsdetail
 
+import android.arch.lifecycle.ViewModelProvider
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import com.lai.news.MainActivity
 import com.lai.news.R
 import com.lai.news.data.Article
 import com.lai.news.databinding.NewsDetailFragBinding
@@ -24,8 +26,10 @@ class NewsDetailFactory {
 
 class NewsDetailFragment : Fragment() {
 
-    lateinit var article: Article
+    lateinit var article: Article //todo: id only
+
     private lateinit var viewDataBinding: NewsDetailFragBinding
+    private lateinit var newsDetailViewModel: NewsDetailViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewDataBinding = DataBindingUtil.inflate(inflater, R.layout.news_detail_frag, container,
@@ -36,12 +40,14 @@ class NewsDetailFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewDataBinding.data = article
+        newsDetailViewModel = (activity as MainActivity).obtainViewModel(article)
+        viewDataBinding.data = newsDetailViewModel
     }
 
     override fun onResume() {
         super.onResume()
         activity.ivBack.visibility = VISIBLE
+        newsDetailViewModel.start()
     }
 
     override fun onStop() {

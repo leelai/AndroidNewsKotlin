@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
+        <!--<variable-->
+            <!--name="data"-->
+            <!--type="com.lai.news.data.Article"/>-->
+        <import type="android.view.View" />
         <variable
             name="data"
-            type="com.lai.news.data.Article"/>
+            type="com.lai.news.newsdetail.NewsDetailViewModel"/>
     </data>
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,11 +35,12 @@
                     android:layout_height="235dp"
                     android:background="#F0F0F2"
                     android:scaleType="center"
-                    android:src="@{data.urlToImage}"
+                    android:src="@{data.image}"
                     app:layout_constraintEnd_toStartOf="parent"
                     app:layout_constraintStart_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/tvTitle"/>
+                    app:layout_constraintBottom_toTopOf="@id/tvTitle"
+                    android:visibility="@{data.dataLoading ? View.GONE : View.VISIBLE}"/>
 
                 <TextView
                     android:id="@+id/tvTitle"
@@ -52,7 +57,8 @@
                     android:text="@{data.title}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/appCompatImageView" />
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
+                    android:visibility="@{data.dataLoading ? View.GONE : View.VISIBLE}"/>
 
                 <TextView
                     android:id="@+id/tvDescription"
@@ -67,11 +73,11 @@
                     android:textColor="#101010"
                     android:textSize="13sp"
                     android:text="@{data.body}"
-                    app:loadArticle="@{data.source.id}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                    app:layout_constraintBottom_toTopOf="@id/tvUpdatedTime"/>
+                    app:layout_constraintBottom_toTopOf="@id/tvUpdatedTime"
+                    android:visibility="@{data.dataLoading ? View.GONE : View.VISIBLE}"/>
 
                 <TextView
                     android:id="@+id/tvUpdatedTime"
@@ -86,13 +92,25 @@
                     android:gravity="start"
                     android:textColor="#607d8b"
                     android:textSize="12sp"
-                    android:text="@{data.dateFormatted}"
+                    android:text="@{data.time}"
                     app:layout_constraintTop_toBottomOf="@id/tvDescription"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"/>
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:visibility="@{data.dataLoading ? View.GONE : View.VISIBLE}"/>
             </android.support.constraint.ConstraintLayout>
         </ScrollView>
 
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F0F0F2"
+            android:scaleType="center"
+            android:src="@drawable/loading"
+            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="@{data.dataLoading ? View.VISIBLE : View.GONE}"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

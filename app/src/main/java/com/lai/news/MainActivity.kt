@@ -1,11 +1,14 @@
 package com.lai.news
 
+import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.lai.news.data.Article
+import com.lai.news.data.source.ArticleRepository
+import com.lai.news.newsdetail.NewsDetailViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 
 /**
  * Created by lailee on 04/03/2018.
@@ -13,7 +16,8 @@ import kotlinx.android.synthetic.main.activity_main.view.*
 class MainActivity : AppCompatActivity() {
 
     private var mFirebaseAnalytics: FirebaseAnalytics? = null
-
+    private var mArticleRepository: ArticleRepository = ArticleRepository()
+    private lateinit var newsDetailViewModel: NewsDetailViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -37,4 +41,11 @@ class MainActivity : AppCompatActivity() {
                 .addToBackStack("test")
                 .commit()
     }
+
+    fun obtainViewModel(article: Article): NewsDetailViewModel {
+        return NewsDetailViewModel(this.application, mArticleRepository, article)
+    }
+    //todo: dependency of mock
+//    fun obtainViewModel(): NewsDetailViewModel = obtainViewModel(NewsDetailViewModel::class.java)
+    //todo: need to implement first page viewmodel
 }
