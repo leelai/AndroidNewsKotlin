@@ -1,4 +1,4 @@
-package com.lai.news
+package com.lai.news.news
 
 import android.content.Context
 import com.lai.news.data.Article

@@ -1,6 +1,9 @@
 package com.lai.news.data.source
 
+import android.content.Context
 import com.lai.news.data.Article
+import com.lai.news.data.News
+import java.util.ArrayList
 
 
 /**
@@ -13,7 +16,16 @@ import com.lai.news.data.Article
  * operation on database or network should be executed in a different thread.
  */
 
-interface ArticleDataSource {
+interface NewsDataSource {
+
+    interface GetNewsCallback {
+
+        fun onNewsLoaded(news: ArrayList<Article>)
+
+        fun onDataNotAvailable()
+
+        fun noInternet()
+    }
 
     interface GetArticleCallback {
 
@@ -21,6 +33,10 @@ interface ArticleDataSource {
 
         fun onDataNotAvailable()
     }
+
+    fun getNews(context: Context, page: Int, callback: GetNewsCallback, keywords: String = "")
+
+    fun clearNews()
 
     fun getArticle(articleId: String, callback: GetArticleCallback)
 }

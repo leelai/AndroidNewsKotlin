@@ -1,4 +1,4 @@
-package com.lai.news
+package com.lai.news.news
 
 import android.widget.AbsListView
 
@@ -53,7 +53,8 @@ abstract class EndlessScrollListener: AbsListView.OnScrollListener {
         // If it isn't currently loading, we check to see if we have breached
         // the visibleThreshold and need to reload more data.
         // If we do need to reload some more data, we execute onLoadMore to fetch the data.
-        if (!loading && (firstVisibleItem + visibleItemCount + visibleThreshold) >= totalItemCount ) {
+        if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold) ) {
+            println ("totalItemCount:" + totalItemCount + ", visibleItemCount:" + visibleItemCount + ", firstVisibleItem:" + firstVisibleItem)
             loading = onLoadMore(currentPage + 1, totalItemCount)
         }
     }

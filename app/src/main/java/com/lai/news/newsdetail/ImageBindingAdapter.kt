@@ -2,9 +2,6 @@ package com.lai.news.newsdetail
 
 import android.databinding.BindingAdapter
 import android.widget.ImageView
-import android.widget.TextView
-import com.github.kittinunf.fuel.Fuel
-import com.lai.news.NewsUrlProvider.Companion.genNewsDetailUrl
 import com.lai.news.R
 import com.squareup.picasso.Picasso
 

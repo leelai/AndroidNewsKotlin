@@ -1,42 +1,50 @@
-package com.lai.news
+package com.lai.news.news
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import com.lai.news.R
 import com.lai.news.data.Article
-import com.lai.news.data.News
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.list_view_item.view.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by lailee on 04/03/2018.
  */
 class NewsAdapter: BaseAdapter, Filterable {
-    var context: Context? = null
-    var layoutInflater:LayoutInflater? = null
-    var originListNews = ArrayList<Article>()
-    var filteredListNews = ArrayList<Article>()
-    var myInterface: MyInterface
+    var context: Context
+    var originListNews: List<Article>
+    var filteredListNews: List<Article>
+    private var layoutInflater: LayoutInflater
+    private var myInterface: MyInterface
 
-    constructor(myInterface: MyInterface, listNews: ArrayList<Article>) : super() {
+    constructor(myInterface: MyInterface) : super() {
         this.myInterface = myInterface
         this.context = this.myInterface.getContext1()
         layoutInflater = LayoutInflater.from(context)
-        this.originListNews = listNews
-        this.filteredListNews = listNews
+        filteredListNews = ArrayList<Article>()
+        originListNews = ArrayList<Article>()
+//        this.originListNews = listNews
+//        this.filteredListNews = listNews
+    }
+
+    fun replaceData(tasks: List<Article>) {
+        setList(tasks)
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        println("get view: " + position.toString());
+
         val view : View?
         val vh: ViewHolder?
 
         val news = filteredListNews[position]
 
+        //todo: due to rotation, need to inflate layout agin, but it's a bad idea.
 //        if (convertView == null) {
             vh = ViewHolder(layoutInflater!!)
             vh.view.tag = vh
@@ -51,7 +59,10 @@ class NewsAdapter: BaseAdapter, Filterable {
         vh.title.text = news.title
         vh.description.text = news.description
 
-        Picasso.with(context).load(news.urlToImage).placeholder(R.drawable.progress_animation).error(R.drawable.icon)
+        Picasso.with(context)
+                .load(news.urlToImage)
+                .placeholder(R.drawable.progress_animation)
+                .error(R.drawable.icon)
                 .into(vh.image)
         vh.detailIcon.setOnClickListener({
             myInterface.onClick(news)
@@ -94,7 +105,6 @@ class NewsAdapter: BaseAdapter, Filterable {
             override fun performFiltering(constraint: CharSequence?): FilterResults {
                 val filterString = constraint.toString().toLowerCase()
                 val filterResults = Filter.FilterResults()
-                println("performFiltering:" + filterString + ", current news size:" + originListNews.size)
 
                 if (filterString.isEmpty()) {
                     filterResults.values = originListNews
@@ -106,11 +116,11 @@ class NewsAdapter: BaseAdapter, Filterable {
 
                 val iterator = originListNews.iterator()
                 iterator.forEach {
-                    if (it.description!!.toLowerCase().contains(filterString)) {
+                    if (it.contains(filterString)) {
                         newListNews.add(it)
                     }
                 }
-                println("newListNews:" + constraint.toString() + ", filtered news size:" + newListNews.size)
+
                 filterResults.values = newListNews
                 filterResults.count = newListNews.size
                 return filterResults
@@ -121,5 +131,11 @@ class NewsAdapter: BaseAdapter, Filterable {
                 notifyDataSetChanged()
             }
         }
+    }
+
+    private fun setList(list: List<Article>) {
+        this.originListNews = list
+        this.filteredListNews = list
+        notifyDataSetChanged()
     }
 }

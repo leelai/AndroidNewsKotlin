@@ -5,12 +5,12 @@ import android.arch.lifecycle.AndroidViewModel
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import com.lai.news.data.Article
-import com.lai.news.data.source.ArticleDataSource
-import com.lai.news.data.source.ArticleRepository
+import com.lai.news.data.source.NewsDataSource
+import com.lai.news.data.source.NewsRepository
 
 class NewsDetailViewModel(
         private val context: Application,
-        private val articleRepository: ArticleRepository,
+        private val newsRepository: NewsRepository,
         private val article: Article
 ) : AndroidViewModel(context) {
 
@@ -28,7 +28,7 @@ class NewsDetailViewModel(
     private fun loadArticle() {
         dataLoading.set(true)
 
-        articleRepository.getArticle(article.source!!.id!!, object : ArticleDataSource.GetArticleCallback {
+        newsRepository.getArticle(article.source!!.id!!, object : NewsDataSource.GetArticleCallback {
             override fun onArticleLoaded(article: Article) {
                 error.set(false)
                 title.set(article.title)

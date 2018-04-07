@@ -1,4 +1,4 @@
-package com.lai.news
+package com.lai.news.util
 
 import android.content.Context
 import android.net.ConnectivityManager

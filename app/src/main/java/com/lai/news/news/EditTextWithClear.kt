@@ -1,4 +1,4 @@
-package com.lai.news
+package com.lai.news.news
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -8,6 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.MotionEvent
+import com.lai.news.R
 
 /**
  * Created by lailee on 04/03/2018.
@@ -51,7 +52,7 @@ class EditTextWithClear : AppCompatEditText {
         mSearchButtonImage = ResourcesCompat.getDrawable(resources,
                 R.drawable.ic_search, null)!!
 
-        setCompoundDrawablesRelativeWithIntrinsicBounds(mSearchButtonImage, null, mClearButtonImage, null)
+        setCompoundDrawablesRelativeWithIntrinsicBounds(mSearchButtonImage, null, null, null)
 
         addTextChangedListener(object : TextWatcher{
             override fun afterTextChanged(s: Editable?) {

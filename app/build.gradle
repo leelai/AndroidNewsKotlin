@@ -26,6 +26,7 @@ android {
         }
     }
     buildTypes.each {
+        it.buildConfigField 'Boolean', 'USE_NEWSAPI', newsapiProperties['Newsapi']
         it.buildConfigField 'String', 'NEWSAPI_API_KEY', newsapiProperties['NewsapiApiKey']
         it.buildConfigField 'String', 'NEWSAPI_BASE_URL', newsapiProperties['NewsapiBaseUrl']
         it.buildConfigField 'String', 'DEFAULT_KEYWORDS', newsapiProperties['DefaultKeywords']

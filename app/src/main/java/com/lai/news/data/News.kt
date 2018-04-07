@@ -37,4 +37,12 @@ data class Article (
         val sdf = SimpleDateFormat("MMMM dd, HH:mm" , Locale.getDefault())
         return String.format("Updated: %s", sdf.format(publishedAt))
     }
+
+    fun contains(keywords: String): Boolean {
+        println("contains:" + keywords)
+        println("title:" + title)
+        println("description:" + description)
+        return title?.contains(keywords, true)
+                || description?.contains(keywords, true)
+    }
 }

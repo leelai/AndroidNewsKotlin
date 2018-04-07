@@ -1,12 +1,12 @@
 package com.lai.news
 
-import android.arch.lifecycle.ViewModelProviders
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import com.google.firebase.analytics.FirebaseAnalytics
 import com.lai.news.data.Article
-import com.lai.news.data.source.ArticleRepository
+import com.lai.news.data.source.NewsRepository
+import com.lai.news.news.NewsFragment
+import com.lai.news.news.NewsViewModel
 import com.lai.news.newsdetail.NewsDetailViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -15,15 +15,13 @@ import kotlinx.android.synthetic.main.activity_main.*
  */
 class MainActivity : AppCompatActivity() {
 
-    private var mFirebaseAnalytics: FirebaseAnalytics? = null
-    private var mArticleRepository: ArticleRepository = ArticleRepository()
-    private lateinit var newsDetailViewModel: NewsDetailViewModel
+    private var mNewsRepository: NewsRepository = NewsRepository()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         ivBack.setOnClickListener({ _ -> onBackPressed() })
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         var newsFragment = NewsFragment()
         fragmentTrans(newsFragment)
@@ -42,10 +40,11 @@ class MainActivity : AppCompatActivity() {
                 .commit()
     }
 
-    fun obtainViewModel(article: Article): NewsDetailViewModel {
-        return NewsDetailViewModel(this.application, mArticleRepository, article)
+    fun obtainNewsViewModel(): NewsViewModel {
+        return NewsViewModel(this.application, mNewsRepository)
     }
-    //todo: dependency of mock
-//    fun obtainViewModel(): NewsDetailViewModel = obtainViewModel(NewsDetailViewModel::class.java)
-    //todo: need to implement first page viewmodel
+
+    fun obtainViewModel(article: Article): NewsDetailViewModel {
+        return NewsDetailViewModel(this.application, mNewsRepository, article)
+    }
 }
