@@ -25,7 +25,7 @@ class NewsRepository : NewsDataSource {
 
     override fun getNews(context: Context, page: Int, callback: NewsDataSource.GetNewsCallback, keywords: String) {
 
-        if(Utils.isOnline(context)) {
+        if (Utils.isOnline(context)) {
 
             var url = NewsUrlProvider.generateUrl(page, keywords)
             Fuel.get(url).responseObject(com.lai.news.data.News.Deserializer()) { req, res, result ->
@@ -48,7 +48,7 @@ class NewsRepository : NewsDataSource {
         }
     }
 
-    override fun getArticle(articleId: String, callback: NewsDataSource.GetArticleCallback) {
+    override fun getArticle(context: Context, articleId: String, callback: NewsDataSource.GetArticleCallback) {
         val taskInCache = getArticleWithId(articleId)
 
         // Respond immediately with cache if available
@@ -57,15 +57,21 @@ class NewsRepository : NewsDataSource {
             return
         }
 
-        Fuel.get(NewsUrlProvider.genNewsDetailUrl(articleId)).responseObject(com.lai.news.data.News.Deserializer()) { req, res, result ->
-            //result is of type Result<News, Exception>
-            val (news, err) = result
-            cachedArticles.put(articleId, news!!.articles!![0])
-            println("status:" + news!!.status)
-            println("totalResults:" + news.totalResults)
+        if (Utils.isOnline(context)) {
 
-            callback.onArticleLoaded(getArticleWithId(articleId)!!)
-            //todo: error handle , call onDataNotAvailable
+            Fuel.get(NewsUrlProvider.genNewsDetailUrl(articleId)).responseObject(com.lai.news.data.News.Deserializer()) { req, res, result ->
+                //result is of type Result<News, Exception>
+                val (news, err) = result
+                cachedArticles.put(articleId, news!!.articles!![0])
+
+                if (news.totalResults!!.compareTo(0) > 0) {
+                    callback.onArticleLoaded(getArticleWithId(articleId)!!)
+                } else {
+                    callback.onDataNotAvailable()
+                }
+            }
+        } else {
+            callback.noInternet()
         }
     }
 

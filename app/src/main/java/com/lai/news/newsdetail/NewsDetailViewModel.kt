@@ -28,7 +28,7 @@ class NewsDetailViewModel(
     private fun loadArticle() {
         dataLoading.set(true)
 
-        newsRepository.getArticle(article.source!!.id!!, object : NewsDataSource.GetArticleCallback {
+        newsRepository.getArticle(context, article.source!!.id!!, object : NewsDataSource.GetArticleCallback {
             override fun onArticleLoaded(article: Article) {
                 error.set(false)
                 title.set(article.title)
@@ -39,6 +39,11 @@ class NewsDetailViewModel(
             }
 
             override fun onDataNotAvailable() {
+                error.set(true)
+                dataLoading.set(false)
+            }
+
+            override fun noInternet() {
                 error.set(true)
                 dataLoading.set(false)
             }

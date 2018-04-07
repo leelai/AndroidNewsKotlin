@@ -35,14 +35,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etSearchKeywords"
-            app:refreshing="@{viewmodel.dataLoading}"
-            android:visibility="@{viewmodel.error ? View.INVISIBLE : View.VISIBLE}">
+            app:refreshing="@{viewmodel.dataLoading}">
 
             <ListView
                 android:id="@+id/lvNews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:items="@{viewmodel.items}"
+                android:visibility="@{viewmodel.error ? View.INVISIBLE : View.VISIBLE}"
                 />
 
         </android.support.v4.widget.SwipeRefreshLayout>

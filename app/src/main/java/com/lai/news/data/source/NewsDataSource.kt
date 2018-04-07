@@ -32,11 +32,13 @@ interface NewsDataSource {
         fun onArticleLoaded(article: Article)
 
         fun onDataNotAvailable()
+
+        fun noInternet()
     }
 
     fun getNews(context: Context, page: Int, callback: GetNewsCallback, keywords: String = "")
 
     fun clearNews()
 
-    fun getArticle(articleId: String, callback: GetArticleCallback)
+    fun getArticle(context: Context, articleId: String, callback: GetArticleCallback)
 }
