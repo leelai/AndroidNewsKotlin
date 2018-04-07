@@ -24,6 +24,7 @@ class NewsViewModel(
         error.set(false)
         empty.set(false)
         dataLoading.set(true)
+
         if (page == 1) newsRepository.clearNews()
 
         newsRepository.getNews(context, page, object : NewsDataSource.GetNewsCallback {
@@ -43,6 +44,13 @@ class NewsViewModel(
             }
 
             override fun noInternet() {
+                items.clear()
+                dataLoading.set(false)
+                error.set(true)
+            }
+
+            override fun onError() {
+                items.clear()
                 dataLoading.set(false)
                 error.set(true)
             }

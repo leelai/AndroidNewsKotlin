@@ -32,7 +32,6 @@ class NewsUrlProvider {
         }
 
         fun generateUrl(page: Int, keywords: String): String {
-            println("generateUrl :" + page)
             if (!BuildConfig.USE_NEWSAPI) {
                 when (page >= NewsUrlProvider().urls.size) {
                     true -> return NewsUrlProvider().urls.last()

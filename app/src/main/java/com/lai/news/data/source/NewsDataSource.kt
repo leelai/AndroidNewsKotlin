@@ -25,6 +25,8 @@ interface NewsDataSource {
         fun onDataNotAvailable()
 
         fun noInternet()
+
+        fun onError()
     }
 
     interface GetArticleCallback {
@@ -34,6 +36,8 @@ interface NewsDataSource {
         fun onDataNotAvailable()
 
         fun noInternet()
+
+        fun onError()
     }
 
     fun getNews(context: Context, page: Int, callback: GetNewsCallback, keywords: String = "")

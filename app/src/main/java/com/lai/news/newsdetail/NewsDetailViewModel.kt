@@ -16,6 +16,7 @@ class NewsDetailViewModel(
 
     val dataLoading = ObservableBoolean(false)
     val error = ObservableBoolean(false)
+    val empty = ObservableBoolean(false)
     var title = ObservableField<String>()
     var body = ObservableField<String>()
     var time = ObservableField<String>()
@@ -26,11 +27,12 @@ class NewsDetailViewModel(
     }
 
     private fun loadArticle() {
+        error.set(false)
+        empty.set(false)
         dataLoading.set(true)
 
         newsRepository.getArticle(context, article.source!!.id!!, object : NewsDataSource.GetArticleCallback {
             override fun onArticleLoaded(article: Article) {
-                error.set(false)
                 title.set(article.title)
                 body.set(article.body)
                 time.set(article.getDateFormatted())
@@ -39,13 +41,18 @@ class NewsDetailViewModel(
             }
 
             override fun onDataNotAvailable() {
-                error.set(true)
                 dataLoading.set(false)
+                empty.set(true)
             }
 
             override fun noInternet() {
-                error.set(true)
                 dataLoading.set(false)
+                error.set(true)
+            }
+
+            override fun onError() {
+                dataLoading.set(false)
+                error.set(true)
             }
         })
     }

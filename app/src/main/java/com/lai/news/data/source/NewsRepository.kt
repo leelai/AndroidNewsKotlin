@@ -33,14 +33,21 @@ class NewsRepository : NewsDataSource {
                 val (news, err) = result
                 //todo: deal with error
 
-                if (news!!.articles!!.isEmpty()) {
-                    println("no more data, articles is empty")
-                    callback.onDataNotAvailable()
-                } else {
-                    news.articles!!.forEach {
-                        cachedNews.add(it)
+                println(res.statusCode)
+                println(err.toString())
+
+                try {
+                    if (news!!.articles!!.isEmpty()) {
+                        println("no more data, articles is empty")
+                        callback.onDataNotAvailable()
+                    } else {
+                        news.articles!!.forEach {
+                            cachedNews.add(it)
+                        }
+                        callback.onNewsLoaded(cachedNews)
                     }
-                    callback.onNewsLoaded(cachedNews)
+                } catch (e: Throwable) {
+                    callback.onError()
                 }
             }
         } else {
@@ -62,12 +69,16 @@ class NewsRepository : NewsDataSource {
             Fuel.get(NewsUrlProvider.genNewsDetailUrl(articleId)).responseObject(com.lai.news.data.News.Deserializer()) { req, res, result ->
                 //result is of type Result<News, Exception>
                 val (news, err) = result
-                cachedArticles.put(articleId, news!!.articles!![0])
+                try {
+                    cachedArticles.put(articleId, news!!.articles!![0])
 
-                if (news.totalResults!!.compareTo(0) > 0) {
-                    callback.onArticleLoaded(getArticleWithId(articleId)!!)
-                } else {
-                    callback.onDataNotAvailable()
+                    if (news.totalResults!!.compareTo(0) > 0) {
+                        callback.onArticleLoaded(getArticleWithId(articleId)!!)
+                    } else {
+                        callback.onDataNotAvailable()
+                    }
+                } catch (e: Throwable) {
+                    callback.onError()
                 }
             }
         } else {

@@ -39,10 +39,11 @@ data class Article (
     }
 
     fun contains(keywords: String): Boolean {
-        println("contains:" + keywords)
-        println("title:" + title)
-        println("description:" + description)
-        return title?.contains(keywords, true)
-                || description?.contains(keywords, true)
+        try {
+            return title.contains(keywords, true)
+                    || description.contains(keywords, true)
+        } catch (e: Throwable) {
+            return false
+        }
     }
 }

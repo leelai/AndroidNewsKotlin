@@ -40,6 +40,8 @@ class NewsAdapter: BaseAdapter, Filterable {
         val view : View?
         val vh: ViewHolder?
 
+        if (filteredListNews.isEmpty()) return convertView!! //Fix issue: data error will clean the list, but user is still scrolling
+
         val news = filteredListNews[position]
 
         //todo: due to rotation, need to inflate layout agin, but it's a bad idea.
