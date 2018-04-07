@@ -8,12 +8,3 @@ interface MyInterface{
     fun getFilter(): String
     fun onClick(item: Article)
 }
-
-interface MyInterface1<T : MyInterface1<T>> {
-    fun getFragment(): T
-}
-
-interface MyInterface2<T : MyInterface2<T>>{
-    fun getContext2(): Context
-    fun onClick(item: T)
-}

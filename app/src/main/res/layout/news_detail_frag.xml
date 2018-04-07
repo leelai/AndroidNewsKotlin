@@ -103,14 +103,13 @@
 
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="235dp"
             android:background="#F0F0F2"
             android:scaleType="center"
-            android:src="@drawable/loading"
+            android:src="@drawable/progress_animation"
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:visibility="@{data.dataLoading ? View.VISIBLE : View.GONE}"/>
         <TextView
             android:layout_width="wrap_content"

@@ -21,7 +21,6 @@ class NewsViewModel(
     val items: ObservableList<Article> = ObservableArrayList()
 
     fun loadNews(page: Int) {
-        println("loadNews:" + page)
         error.set(false)
         empty.set(false)
         dataLoading.set(true)

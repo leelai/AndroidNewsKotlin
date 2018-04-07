@@ -33,7 +33,6 @@ class NewsFragment : Fragment(), MyInterface {
 
         editTextWithClear = view.etSearchKeywords.apply {
             afterTextChanged {
-                println("afterTextChanged")
                 if (it.isEmpty() ||
                         (!it.isEmpty() && it != keywords)) {
                     //originListNews.clear()
@@ -57,25 +56,19 @@ class NewsFragment : Fragment(), MyInterface {
         }
 
         view.swipeRefresh!!.setOnRefreshListener {
-            println("OnRefresh!!!")
-            //keywords = ""
-
             adapter = NewsAdapter(this)
             listView!!.adapter = adapter
             editTextWithClear!!.setText("", TextView.BufferType.EDITABLE)
-//            getNews(1)
         }
         return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        println("onActivityCreated")
         getNews(1)
     }
 
     private fun getNews(page: Int) {
-        println("getNews:" + page )
         if (!viewDataBinding.etSearchKeywords.text.isEmpty()) {
             adapter!!.filter.filter(keywords)
         } else {

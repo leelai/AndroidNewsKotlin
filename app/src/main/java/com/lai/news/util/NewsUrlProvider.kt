@@ -9,7 +9,7 @@ class NewsUrlProvider {
     var urls = arrayOf(
 //            "https://api.myjson.com/bins/dl0p7",
 //            "https://api.myjson.com/bins/1f3bt7",
-//            "https://api.myjson.com/bins/1axakr",
+            "https://api.myjson.com/bins/1axakr",
             "https://api.myjson.com/bins/j02az",
             "https://api.myjson.com/bins/8vp0r",
             "https://api.myjson.com/bins/riovv"
@@ -33,13 +33,13 @@ class NewsUrlProvider {
 
         fun generateUrl(page: Int, keywords: String): String {
             println("generateUrl :" + page)
-            if (BuildConfig.USE_NEWSAPI) {
-                return newsApi(keywords, page)
-            } else {
+            if (!BuildConfig.USE_NEWSAPI) {
                 when (page >= NewsUrlProvider().urls.size) {
                     true -> return NewsUrlProvider().urls.last()
                     false -> return NewsUrlProvider().urls[page - 1]
                 }
+            } else {
+                return newsApi(keywords, page)
             }
         }
 

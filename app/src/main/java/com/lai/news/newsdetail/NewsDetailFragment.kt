@@ -26,14 +26,13 @@ class NewsDetailFactory {
 
 class NewsDetailFragment : Fragment() {
 
-    lateinit var article: Article //todo: id only
+    lateinit var article: Article
 
     private lateinit var viewDataBinding: NewsDetailFragBinding
     private lateinit var newsDetailViewModel: NewsDetailViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewDataBinding = DataBindingUtil.inflate(inflater, R.layout.news_detail_frag, container,
-                false)
+        viewDataBinding = NewsDetailFragBinding.inflate(inflater, container, false)
 
         return viewDataBinding.root
     }

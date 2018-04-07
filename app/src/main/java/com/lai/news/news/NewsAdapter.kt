@@ -27,10 +27,8 @@ class NewsAdapter: BaseAdapter, Filterable {
         this.myInterface = myInterface
         this.context = this.myInterface.getContext1()
         layoutInflater = LayoutInflater.from(context)
-        filteredListNews = ArrayList<Article>()
-        originListNews = ArrayList<Article>()
-//        this.originListNews = listNews
-//        this.filteredListNews = listNews
+        filteredListNews = ArrayList()
+        originListNews = ArrayList()
     }
 
     fun replaceData(tasks: List<Article>) {
